@@ -4,7 +4,7 @@ const AuthorPost = ({ userId }) => {
     const author = users.find(user => user.id === userId);
     return (
         <>
-            <span style={{ fontStyle: "italic" }}>Author by {author ? author.fullname : "Uknown Author"} </span>
+            <span style={{ fontStyle: "italic" }}>Author by {author ? author.name : "Uknown Author"} </span>
         </>
     )
 };

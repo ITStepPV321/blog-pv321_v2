@@ -11,6 +11,7 @@ export const fetchUsers=createAsyncThunk('users/fetchUsers',
 async ()=>{
     const respons=await fetch(BASE_URL);
     const data=await respons.json();
+    console.log(data);
     return data;
 }); 
 
@@ -21,8 +22,16 @@ const usersSlice=createSlice({
     },
     extraReducers(builder){
         builder.addCase(fetchUsers.fulfilled, (state,action)=>{
+            // state.users=action.payload;
             return action.payload;
         })
+        .addCase(fetchUsers.pending,()=>{
+            //handler isloading
+        })
+        .addCase(fetchUsers.rejected,()=>{
+            //handler error
+        })
+
     }
 });
 

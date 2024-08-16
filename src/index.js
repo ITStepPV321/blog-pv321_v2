@@ -4,6 +4,10 @@ import './index.css';
 import App from './App';
 import { Provider } from 'react-redux';
 import { store } from './app/store';
+import { fetchUsers } from './app/appSlices/usersSlice';
+
+
+store.dispatch(fetchUsers()); //update users in our store
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

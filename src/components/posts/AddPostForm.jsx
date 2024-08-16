@@ -57,7 +57,7 @@ const AddPostForm = ({post}) => {
                 <option key="0" value="0">select author</option>
                    {/* <option value=...>data</option> */}
                    {users.map(user=>(
-                    <option key={user.id} value={user.id}>{user.fullname}</option>
+                    <option key={user.id} value={user.id}>{user.name}</option>
                    ))}
              </select>
              <br/>
