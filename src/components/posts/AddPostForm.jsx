@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { postAdd,postEdit } from "../../app/appSlices/postsSlice";
+import { addNewPost, postAdd,postEdit } from "../../app/appSlices/postsSlice";
 
 
 const AddPostForm = ({post}) => {
@@ -11,6 +11,7 @@ const AddPostForm = ({post}) => {
     const [content, setContent] = useState("");
     const [userId, setUserId] = useState(0);
     const [id, setId] = useState(null);
+    const [addRequestStatus, setAddRequestStatus] = useState('idle')
 
     const handlerTitleChange = event => setTitle(event.target.value);
     const handlerContentChange = event => setContent(event.target.value);
@@ -28,12 +29,16 @@ const AddPostForm = ({post}) => {
     const handlerSubmit = (event) => {
         event.preventDefault();
         console.log(title);
-        if (post&&title&&content){
+        if (post&&title&&content&& addRequestStatus === 'idle'){
+        // if (post&&title&&content){
             // dispatch(postEdit({id: id,title:title,userId:userId,content:content}));
-            dispatch(postEdit({id,title,userId,content}));
+            // dispatch(postEdit({id,title,userId,content}));
+
         }else
         if (title && content){
-            dispatch(postAdd(title,content,userId));
+            // dispatch(postAdd(title,content,userId));
+            dispatch(addNewPost({title, body: content, userId}));
+
         }
         setTitle("");
         setContent("");

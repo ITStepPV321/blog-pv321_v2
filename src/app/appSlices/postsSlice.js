@@ -13,6 +13,11 @@ export const fetchPosts = createAsyncThunk("posts/fetchPost", async () => {
     return data;
 });
 
+// export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
+//     const response = await axios.get(BASE_URL)
+//     return response.data
+// })
+
 export const removePost = createAsyncThunk("posts/removePost", async ({ id }) => {
     //   return fetch("https://jsonplaceholder.typicode.com/posts")
     //     .then((response) => response.json())
@@ -26,6 +31,17 @@ export const removePost = createAsyncThunk("posts/removePost", async ({ id }) =>
     }
 });
 
+export const addNewPost = createAsyncThunk('posts/addNewPost', async (initialPost) => {
+    // console.log(initialPost);
+    const response = await fetch(BASE_URL,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(initialPost)
+      }); 
+    return response.json();
+})
 
 const initialState = {
     posts: [],
@@ -63,7 +79,7 @@ export const postsSlice = createSlice({
     name: "posts",
     initialState,
     reducers: {
-        // // "posts/action"
+        // "posts/action"
         // postAdd: {
         //     reducer: (state, action) => {
         //         console.log(action.payload);
@@ -137,10 +153,10 @@ export const postsSlice = createSlice({
                 state.error = action.error.message
             })
             .addCase(removePost.fulfilled, (state, action) => {
-                console.log(action.payload);
+                // console.log(action.payload);
                 if (!action?.payload.id) {
                     console.log("could not delete");
-                    console.log(action.payload)
+                    // console.log(action.payload)
                     return
                 }
 
@@ -148,6 +164,22 @@ export const postsSlice = createSlice({
                 const OldPosts = state.posts.filter(post =>
                     post.id !== id)
                 state.posts = OldPosts
+            })
+            .addCase(addNewPost.fulfilled, (state, action) => {
+                // console.log(state.posts.length);
+                // console.log(action.payload);
+                action.payload.id = state.posts[state.posts.length - 1].id + 1;
+                // End fix for fake API post IDs 
+                action.payload.userId = Number(action.payload.userId)
+                // action.payload.date = new Date().toISOString();
+                action.payload.reactions = {
+                    thumbsUp: 0,
+                    heart: 0,
+                    smiley: 0,
+                    thumbsDown: 0
+                }
+                console.log(action.payload)
+                state.posts.push(action.payload)
             })
 
     }
